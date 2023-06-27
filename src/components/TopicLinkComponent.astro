@@ -1,0 +1,24 @@
+---
+function convertToSlug(text: string): string {
+    return text
+        .toLowerCase()
+        .replace(/[^a-zA-Z0-9]+/g, "-")
+        .replace(/^-|-$/g, "");
+}
+
+const { name, subtopics } = Astro.props;
+const convertedSlug = convertToSlug(name);
+const slug = `/questions/${convertedSlug}`;
+---
+
+{
+    subtopics != 0 ? (
+        <td class="border-b border-slate-100  p-4 pl-8 text-slate-500 ">
+            <a href={`${slug}`}>{name}</a>
+        </td>
+    ) : (
+        <td class="border-b border-slate-100  p-4 pl-8 text-slate-500 ">
+            {name}
+        </td>
+    )
+}

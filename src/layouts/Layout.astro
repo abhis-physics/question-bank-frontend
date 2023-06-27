@@ -1,0 +1,310 @@
+---
+const { page } = Astro.props;
+let daysLeft = (() => {
+        const currentDate = new Date();
+        const targetDate = new Date(2023, 8, 15);
+        const diffInMilliseconds = targetDate.getTime() - currentDate.getTime();
+        const daysDifference = Math.floor(
+            diffInMilliseconds / (1000 * 60 * 60 * 24)
+        );
+        if (daysDifference <= 0) {
+            return `Your days are over!`;
+        } else if (daysDifference == 1) {
+            return `You have 1 day left for mains`;
+        } else {
+            return `You have ${daysDifference} days left for mains`;
+        }
+    })();
+---
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" type="image/x-icon" href="/logo.ico" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="generator" content={Astro.generator} />
+        <meta property="og:image" content="/logo.jpg" />
+        <meta
+            name="description"
+            content="UPSC Physics Optional Question Bank"
+        />
+        <meta name="keywords" content="UPSC, Physics, optional, questions" />
+        <link rel="canonical" href={Astro.url} />
+        <title>UPSC Physics Optional Questions</title>
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.css"
+            integrity="sha384-3UiQGuEI4TTMaFmGIZumfRPtfKQ3trwQE2JgosJxCnGmQpL/lJdjpcHkaaFwHlcI"
+            crossorigin="anonymous"
+        />
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.js"
+            integrity="sha384-G0zcxDFp5LWZtDuRMnBkk3EphCK1lhEf4UEyEM693ka574TZGwo4IWwS6QLzM/2t"
+            crossorigin="anonymous"></script>
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/contrib/auto-render.min.js"
+            integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05"
+            crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <menu-nav-bar>
+            <nav
+                class="bg-gray-800 w-full z-50"
+                id="menuNavBar"
+                data-page={page}
+            >
+                <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+                    <!-- menu icon for mobile menu -->
+                    <div
+                        class="absolute inset-y-0 left-0 block md:hidden z-10 h-12"
+                        id="mobileMenuIconContainer"
+                    >
+                        <!-- Mobile menu button-->
+                        <button
+                            type="button"
+                            class="inline-flex items-center justify-center rounded-md p-3 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                            aria-controls="mobile-menu"
+                            aria-expanded="false"
+                        >
+                            <span class="sr-only">Open menu</span>
+                            <!-- Icon when menu is closed. -->
+                            <svg
+                                class="block h-6 w-6"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke-width="1.5"
+                                stroke="currentColor"
+                                aria-hidden="true"
+                                id="mobileMenuOpenClose"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                                ></path>
+                            </svg>
+                            <!-- Icon when menu is open. -->
+                            <svg
+                                class="hidden h-6 w-6"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke-width="1.5"
+                                stroke="currentColor"
+                                aria-hidden="true"
+                                id="mobileMenuOpenIcon"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <!-- header: title and menu -->
+                    <div
+                        class="relative h-16 flex flex-col items-center md:flex-row"
+                    >
+                        <!-- title -->
+                        <div>
+                            <p class="text-2xl hidden text-white md:block">
+                                UPSC Physics Optional Questions
+                            </p>
+                            <p class="text-2xl text-white block md:hidden pt-2">
+                                UPSC Physics
+                            </p>
+                        </div>
+                        <!-- menu items -->
+                        <div
+                            class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-center"
+                        >
+                            <div class="hidden sm:ml-6 sm:block">
+                                <div class="flex space-x-4">
+                                    <a
+                                        href="/"
+                                        class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                                        data-page="home"
+                                        aria-current="page">Home</a
+                                    >
+                                    <a
+                                        href="/topics"
+                                        class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                                        data-page="topics">Topics</a
+                                    >
+                                    <a
+                                        href="/subtopics"
+                                        class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                                        data-page="subtopics">Sub-topics</a
+                                    >
+                                    <a
+                                        href="/isp"
+                                        class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                                        data-page="isp">ISP</a
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                        <!-- days left -->
+                        <div class="text-xl text-white hidden md:block">{daysLeft}</div>
+                    </div>
+                </div>
+
+                <!-- Mobile menu, show/hide based on menu state. -->
+            </nav>
+            <div class="text-xl text-white block bg-gray-800 w-full z-50 p-2 text-center md:hidden">{daysLeft}</div>
+            <div
+                class="hidden z-50 absolute bg-gray-800 w-full"
+                id="mobile-menu"
+            >
+                <div class="space-y-1 px-2 pb-3 pt-2">
+                    <a
+                        href="/"
+                        class="bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium"
+                        aria-current="page"
+                        data-page="home">Home</a
+                    >
+                    <a
+                        href="/topics"
+                        class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
+                        data-page="topics">Topics</a
+                    >
+                    <a
+                        href="/subtopics"
+                        class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
+                        data-page="subtopics">Sub-topics</a
+                    >
+                    <a
+                        href="/isp"
+                        class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
+                        data-page="isp">ISP</a
+                    >
+                </div>
+            </div>
+        </menu-nav-bar>
+        <div class="z-0">
+            <article>
+                <slot />
+            </article>
+        </div>
+    </body>
+</html>
+
+<script>
+    // Define the behaviour for our new type of HTML element.
+    class MenuNavbar extends HTMLElement {
+        constructor() {
+            super();
+            let isOpen = false;
+
+            const mobileMenuIconContainer = this.querySelector(
+                "#mobileMenuIconContainer"
+            );
+            const mobileMenuOpenClose = this.querySelector(
+                "#mobileMenuOpenClose"
+            );
+            const mobileMenuOpenIcon = this.querySelector(
+                "#mobileMenuOpenIcon"
+            );
+
+            const mobileMenu = this.querySelector("#mobile-menu");
+
+            const dataPage =
+                this.querySelector("#menuNavBar")?.getAttribute("data-page");
+
+            const menuLinks = this.querySelectorAll("a").forEach((element) => {
+                element.classList.remove(
+                    "bg-gray-900",
+                    "text-white",
+                    "text-gray-300",
+                    "hover:bg-gray-700",
+                    "hover:text-white"
+                );
+                const elementPageData = element.getAttribute("data-page");
+                if (elementPageData != dataPage) {
+                    element.removeAttribute("aria-current");
+                    element.classList.add(
+                        "text-gray-300",
+                        "hover:bg-gray-700",
+                        "hover:text-white"
+                    );
+                } else {
+                    element.setAttribute("aria-current", "page");
+                    element.classList.add("bg-gray-900", "text-white");
+                }
+            });
+
+            // Each time the button is clicked, update the count.
+            mobileMenuIconContainer?.addEventListener("click", () => {
+                const toggleClass = (
+                    element: Element,
+                    remove: string,
+                    add: string
+                ) => {
+                    element.classList.remove(remove);
+                    element.classList.add(add);
+                };
+                if (isOpen) {
+                    // set classes for mobile menu open
+                    // add block, remove hidden to mobileMenuOpenClose
+                    // add hidden, remove block to mobileMenuOpenIcon & mobileMenu
+                    // add
+                    mobileMenuOpenClose &&
+                        toggleClass(mobileMenuOpenClose, "hidden", "block");
+                    mobileMenuOpenIcon &&
+                        toggleClass(mobileMenuOpenIcon, "block", "hidden");
+                    mobileMenu && toggleClass(mobileMenu, "block", "hidden");
+                    isOpen = !isOpen;
+                } else {
+                    // set classed for mobile menu closed
+                    // add block, remove hidden to mobileMenuOpenClose
+                    // add hidden, remove block to mobileMenuOpenIcon & mobileMenu
+                    mobileMenuOpenClose &&
+                        toggleClass(mobileMenuOpenClose, "block", "hidden");
+                    mobileMenuOpenIcon &&
+                        toggleClass(mobileMenuOpenIcon, "hidden", "block");
+                    mobileMenu && toggleClass(mobileMenu, "hidden", "block");
+                    isOpen = !isOpen;
+                }
+            });
+        }
+    }
+
+    // Tell the browser to use our MobileMenuIcon class for <astro-heart> elements.
+    customElements.define("menu-nav-bar", MenuNavbar);
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        renderMathInElement(document.body, {
+            // customised options
+            // • auto-render specific keys, e.g.:
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true },
+            ],
+            // • rendering keys, e.g.:
+            throwOnError: false,
+        });
+    });
+</script>
+
+<style is:global>
+    body::-webkit-scrollbar {
+        width: 0.25rem;
+    }
+
+    body::-webkit-scrollbar-track {
+        background: rgb(70, 92, 124);
+    }
+
+    body::-webkit-scrollbar-thumb {
+        background: rgb(31 41 55);
+    }
+    ::selection {
+        color: var(--bg-primary);
+        background: var(--bg-secondary);
+    }
+</style>

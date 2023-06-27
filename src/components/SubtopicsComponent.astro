@@ -1,0 +1,60 @@
+---
+const { paper } = Astro.props;
+function convertToSlug(text: string): string {
+    const convertedSlug = text
+        .toLowerCase()
+        .replace(/[^a-zA-Z0-9]+/g, "-")
+        .replace(/^-|-$/g, "");
+
+    const slug = `/questions/${convertedSlug}`;
+    return slug;
+}
+---
+
+<div>
+    {
+        paper.map((topic: any, i: number) => {
+            return (
+                topic.subtopics.length != 0 && (
+                    <div class="m-2">
+                        <header>
+                            <p class="text-2xl ms-3 mt-5">
+                                {topic.topicName} Sub-topics
+                            </p>
+                        </header>
+                        <div class="relative rounded-xl overflow-auto">
+                            <div class="shadow-sm overflow-hidden my-8">
+                                <table class="table-fixed text-sm">
+                                    <thead>
+                                        <tr>
+                                            <th class="border-b font-medium p-4 pl-8 pt-0 pb-3 text-slate-400  text-left">
+                                                Sub-Topics
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-white">
+                                        {topic.subtopics.map(
+                                            (d: any, i: number) => (
+                                                <tr>
+                                                    <td class="border-b border-slate-100  p-4 pl-8 text-slate-500 ">
+                                                        <a
+                                                            href={convertToSlug(
+                                                                d.subtopicName
+                                                            )}
+                                                        >
+                                                            {d.subtopicName}
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            )
+                                        )}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                )
+            );
+        })
+    }
+</div>

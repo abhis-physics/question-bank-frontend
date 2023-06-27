@@ -1,0 +1,133 @@
+---
+import data from "../../../data.json";
+import metaData from "../../../metadata.json";
+import QuestionsListComponent from "../../components/QuestionsListComponent.astro";
+import Layout from "../../layouts/Layout.astro";
+
+export async function getStaticPaths() {
+  // meta data converted tp {id,name}[]
+  interface SubtopicObject {
+    subtopicName: string;
+    subtopicId: string;
+  }
+
+  interface TopicObject {
+    topicId: string;
+    topicName: string;
+    subtopics: SubtopicObject[];
+  }
+
+  interface OutObject {
+    id: string;
+    name: string;
+  }
+
+  interface DataObject {
+    [key: string]: TopicObject[];
+  }
+
+  interface Questions {
+    id?: string;
+    paper?: string;
+    question?: string;
+    solution?: string;
+    topic?: string;
+    subtopic?: string;
+    remarks?: string;
+  }
+
+  function extractTopics(data: DataObject): OutObject[] {
+    const topics: OutObject[] = [];
+
+    Object.entries(data).forEach(([key, value]) => {
+      const topicObjects = value.map((obj) => {
+        const TopicObject = {
+          id: obj.topicId,
+          name: obj.topicName,
+        };
+        topics.push(TopicObject);
+        if (obj.subtopics.length != 0) {
+          const subtopicObject = obj.subtopics.map((subtopic) => {
+            const SubTopicObject = {
+              id: subtopic.subtopicId,
+              name: subtopic.subtopicName,
+            };
+            topics.push(SubTopicObject);
+          });
+        }
+      });
+    });
+
+    return topics;
+  }
+
+  function convertToSlug(text: string): string {
+    return text
+      .toLowerCase()
+      .replace(/[^a-zA-Z0-9]+/g, "-")
+      .replace(/^-|-$/g, "");
+  }
+
+  const topicsAndSubtopics = extractTopics(metaData);
+
+  // get all topics and subtopics with question
+  interface TopicSubtopic {
+    topic: string;
+    subtopic: string;
+  }
+
+  function getUniqueTopicsAndSubtopics(data: TopicSubtopic[]): string[] {
+    const uniqueEntries = data.reduce<string[]>((accumulator, item) => {
+      const { topic, subtopic } = item;
+
+      if (!accumulator.includes(topic)) {
+        accumulator.push(topic);
+      }
+
+      if (!accumulator.includes(subtopic)) {
+        accumulator.push(subtopic);
+      }
+
+      return accumulator;
+    }, []);
+
+    return uniqueEntries;
+  }
+
+  const uniqueIds = getUniqueTopicsAndSubtopics(data);
+
+  // get unique slugs
+
+  function getTopicSubTopicNameById(id: string): OutObject | undefined {
+    const topic = topicsAndSubtopics.find((topic) => topic.id === id);
+    return topic;
+  }
+  const uniqueTopicsSubtopics = uniqueIds.map((d) =>
+    getTopicSubTopicNameById(d)
+  );
+  const uniqueSlugs = uniqueTopicsSubtopics.map((d) => {
+    if (d) {
+      const temp = { ...d, slug: convertToSlug(d.name) };
+      return temp;
+    }
+  });
+  const questionsObjectArray = uniqueSlugs.map((d) => {
+    const questions =
+      data.filter((e: any) => e.topic == d?.id || e.subtopic == d?.id) || [];
+    const temp = { ...d, questions: questions };
+    return temp;
+  });
+  const staticPaths = questionsObjectArray.map((data) => ({
+    params: { id: data?.slug },
+    props: { questionsData: data },
+  }));
+  return staticPaths;
+}
+
+const { id } = Astro.params;
+const { questionsData } = Astro.props;
+---
+
+<Layout>
+  <QuestionsListComponent questionsData={questionsData} />
+</Layout>

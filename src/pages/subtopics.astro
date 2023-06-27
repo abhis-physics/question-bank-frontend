@@ -1,0 +1,12 @@
+---
+import Layout from "../layouts/Layout.astro";
+import metaData from "../../metadata.json";
+import SubtopicsComponent from "../components/SubtopicsComponent.astro";
+const paper1 = metaData["paper-1"]
+const paper2 = metaData["paper-2"]
+---
+
+<Layout page="subtopics">
+    <SubtopicsComponent paper={paper1} />
+    <SubtopicsComponent paper={paper2} />
+</Layout>

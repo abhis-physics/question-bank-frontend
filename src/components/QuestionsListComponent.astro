@@ -1,0 +1,90 @@
+---
+const { questionsData } = Astro.props;
+---
+
+<div class="questionContainer">
+    <questions-container>
+        <div class="flex md:justify-evenly flex-col md:flex-row">
+            <header>
+                <h1 class="text-2xl ms-3 mt-5">{questionsData.name} Questions</h1>
+            </header>
+            <label
+                class="relative inline-flex items-center cursor-pointer ms-3 mt-5"
+            >
+                <input
+                    type="checkbox"
+                    checked
+                    class="sr-only peer"
+                    id="showAnswerToggle"
+                />
+                <div
+                    class=`w-11 h-6 bg-gray-200 
+                    peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 
+                    peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] md:after:top-[6px] after:left-[2px] 
+                    after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600`
+                >
+                </div>
+                <span
+                    class="ml-3 text-sm font-medium text-gray-900 "
+                    >Show Answers</span
+                >
+            </label>
+        </div>
+        <div class="m-10">
+            {
+                questionsData.questions.map((d: any, i: number) => {
+                    return (
+                        <div class="mb-10 text-justify overflow-x-auto overflow-y-hidden">
+                            <div class="question font-bold">
+                                {i + 1}. {d.question}{" "}
+                                <span class="font-semibold">
+                                    {d.remarks && `[${d.remarks}]`}
+                                </span>
+                            </div>
+                            <div class="answer mx-1 w-75">{d.solution}</div>
+                        </div>
+                    );
+                })
+            }
+        </div>
+    </questions-container>
+</div>
+
+<script>
+    // Define the behaviour for our new type of HTML element.
+    class QuestionsContainer extends HTMLElement {
+        constructor() {
+            super();
+
+            const showAnswerToggle: HTMLInputElement | null =
+                this.querySelector("#showAnswerToggle");
+
+            const answer = this.querySelectorAll(".answer");
+
+            // Eshow/hide answer depend upon the toggle
+            showAnswerToggle?.addEventListener("change", () => {
+                const toggleClass = (
+                    element: Element,
+                    remove: string,
+                    add: string
+                ) => {
+                    element.classList.remove(remove);
+                    element.classList.add(add);
+                };
+                const showAnswer = showAnswerToggle.checked;
+                if (showAnswer) {
+                    answer.forEach((element) => {
+                        toggleClass(element, "hidden", "block");
+                    });
+                } else {
+                    answer.forEach((element) => {
+                        toggleClass(element, "block", "hidden");
+                    });
+                }
+            });
+        }
+    }
+
+    // Tell the browser to use our MobileMenuIcon class for <astro-heart> elements.
+    customElements.define("questions-container", QuestionsContainer);
+</script>
