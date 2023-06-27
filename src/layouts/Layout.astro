@@ -1,20 +1,5 @@
 ---
 const { page } = Astro.props;
-let daysLeft = (() => {
-        const currentDate = new Date();
-        const targetDate = new Date(2023, 8, 15);
-        const diffInMilliseconds = targetDate.getTime() - currentDate.getTime();
-        const daysDifference = Math.floor(
-            diffInMilliseconds / (1000 * 60 * 60 * 24)
-        );
-        if (daysDifference <= 0) {
-            return `Your days are over!`;
-        } else if (daysDifference == 1) {
-            return `You have 1 day left for mains`;
-        } else {
-            return `You have ${daysDifference} days left for mains`;
-        }
-    })();
 ---
 
 <html lang="en">
@@ -146,13 +131,23 @@ let daysLeft = (() => {
                             </div>
                         </div>
                         <!-- days left -->
-                        <div class="text-xl text-white hidden md:block">{daysLeft}</div>
+                        <div
+                            class="text-xl text-white hidden md:block"
+                            id="daysLeftDesktop"
+                        >
+                            mains exam
+                        </div>
                     </div>
                 </div>
 
                 <!-- Mobile menu, show/hide based on menu state. -->
             </nav>
-            <div class="text-xl text-white block bg-gray-800 w-full z-50 p-2 text-center md:hidden">{daysLeft}</div>
+            <div
+                class="text-xl text-white block bg-gray-800 w-full z-50 p-2 text-center md:hidden"
+                id="daysLeftMobile"
+            >
+                mains exam
+            </div>
             <div
                 class="hidden z-50 absolute bg-gray-800 w-full"
                 id="mobile-menu"
@@ -182,7 +177,7 @@ let daysLeft = (() => {
                 </div>
             </div>
         </menu-nav-bar>
-        <div class="z-0">
+        <div class="z-0 p-2 md:px-28">
             <article>
                 <slot />
             </article>
@@ -206,6 +201,32 @@ let daysLeft = (() => {
             const mobileMenuOpenIcon = this.querySelector(
                 "#mobileMenuOpenIcon"
             );
+
+            const daysLeftMobile = this.querySelector("#daysLeftMobile");
+            const daysLeftDesktop = this.querySelector("#daysLeftDesktop");
+            let daysLeft = (() => {
+                const currentDate = new Date();
+                const targetDate = new Date(2023, 8, 15);
+                const diffInMilliseconds =
+                    targetDate.getTime() - currentDate.getTime();
+                const daysDifference = Math.floor(
+                    diffInMilliseconds / (1000 * 60 * 60 * 24)
+                );
+                if (daysDifference <= 0) {
+                    return `Your days are over!`;
+                } else if (daysDifference == 1) {
+                    return `You have 1 day left for mains`;
+                } else {
+                    return `You have ${daysDifference} days left for mains`;
+                }
+            })();
+
+            if (daysLeftMobile) {
+                daysLeftMobile.textContent = daysLeft;
+            }
+            if (daysLeftDesktop) {
+                daysLeftDesktop.textContent = daysLeft;
+            }
 
             const mobileMenu = this.querySelector("#mobile-menu");
 
