@@ -312,6 +312,24 @@ const { page } = Astro.props;
     });
 </script>
 
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics.js";
+const firebaseConfig = {
+    apiKey: "AIzaSyC1caVhmNpYyshsvdA2kC3s_Om9JP-GiAg",
+    authDomain: "physics-questions-upsc.firebaseapp.com",
+    projectId: "physics-questions-upsc",
+    storageBucket: "physics-questions-upsc.appspot.com",
+    messagingSenderId: "154279966945",
+    appId: "1:154279966945:web:6a263305ac3c5c2c85dfa0",
+    measurementId: "G-51MRNHRE1X"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+</script>
+
 <style is:global>
     body::-webkit-scrollbar {
         width: 0.25rem;
