@@ -20,7 +20,8 @@ export const TwoQuestions = () => {
     let timeInMilliseconds = today.getTime() - givenDate.getTime();
 
     // Convert milliseconds to days and round down
-    let daysDifference = Math.floor(timeInMilliseconds / (1000 * 60 * 60 * 24));
+    let originalDaysDifference = Math.floor(timeInMilliseconds / (1000 * 60 * 60 * 24));
+    let daysDifference = Math.floor(originalDaysDifference - (originalDaysDifference / 7));
     const [day, setDay] = useState(daysDifference);
 
     const FetchQuestions = async (day) => {
@@ -53,7 +54,7 @@ export const TwoQuestions = () => {
     }
 
     const NextButton = () => {
-        let nextDay = (day + 1) < daysDifference ? day + 1: daysDifference;
+        let nextDay = (day + 1) < daysDifference ? day + 1 : daysDifference;
         return <>
             {day != daysDifference && <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => setDay(nextDay)}>
                 Day {nextDay}
