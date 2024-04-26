@@ -91,11 +91,11 @@ export const TwoQuestions = () => {
             <NextButton />
         </div>
         <header>
-            <div
+            <h1
                 className="flex items-center content-center justify-center text-xl mt-5 mx-2"
             >
                 Two Questions Programme - Day {day}
-            </div>
+            </h1>
         </header>
 
         <div className="m-4">

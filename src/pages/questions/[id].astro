@@ -126,8 +126,21 @@ export async function getStaticPaths() {
 
 const { id } = Astro.params;
 const { questionsData } = Astro.props;
+
+const initialTitle = id;
+function convertTitle(input: string) {
+  return input
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
+}
+const convertedTitle = convertTitle(initialTitle);
 ---
 
-<Layout>
+<Layout
+  title={`${convertedTitle} UPSC Physics Optional Questions`}
+  description={`${convertedTitle} UPSC Physics Optional Questions with answers`}
+  keywords={[convertedTitle]}
+>
   <QuestionsListComponent questionsData={questionsData} />
 </Layout>

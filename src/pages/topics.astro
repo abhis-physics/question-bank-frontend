@@ -2,10 +2,15 @@
 import Layout from "../layouts/Layout.astro";
 import metaData from "../../metadata.json";
 import TopicLinkComponent from "../components/TopicLinkComponent.astro";
-import Subtopics from "./subtopics.astro";
 ---
 
-<Layout page="topics">
+<Layout
+    page="topics"
+    title="Topics of UPSC Physics Optional"
+    description="Topic wise UPSC Physics Optional Question Bank"
+    keywords={["Topics"]}
+>
+    <h1 class="text-center text-4xl m-4">UPSC Physics Optional Topics</h1>
     <div class="m-2">
         <header>
             <p class="text-2xl ms-3 mt-5">Paper 1 Topics</p>

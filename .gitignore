@@ -29,3 +29,4 @@ metadata.json
 public/404.html
 public/favicon.svg
 public/index.html
+src/firebase/app.js

@@ -2,11 +2,17 @@
 import Layout from "../layouts/Layout.astro";
 import metaData from "../../metadata.json";
 import SubtopicsComponent from "../components/SubtopicsComponent.astro";
-const paper1 = metaData["paper-1"]
-const paper2 = metaData["paper-2"]
+const paper1 = metaData["paper-1"];
+const paper2 = metaData["paper-2"];
 ---
 
-<Layout page="subtopics">
+<Layout
+    page="subtopics"
+    title="Sub-Topics of UPSC Physics Optional"
+    description="Sub-Topic wise UPSC Physics Optional Question Bank"
+    keywords={["Sub-topics"]}
+>
+    <h1 class="text-center text-4xl m-4">UPSC Physics Optional Sub-Topics</h1>
     <SubtopicsComponent paper={paper1} />
     <SubtopicsComponent paper={paper2} />
 </Layout>

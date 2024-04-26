@@ -1,7 +1,21 @@
 ---
-const { page } = Astro.props;
+const {
+    title = "UPSC Physics Optional Questions",
+    description = "UPSC Physics Optional Question Bank",
+    page,
+    keywords = [],
+} = Astro.props;
+const refinedKeywords = [
+    "UPSC",
+    "Physics",
+    "Optional",
+    "Questions",
+    "Answers",
+    ...keywords,
+].join(", ");
 ---
 
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8" />
@@ -9,13 +23,10 @@ const { page } = Astro.props;
         <meta name="viewport" content="width=device-width" />
         <meta name="generator" content={Astro.generator} />
         <meta property="og:image" content="/logo.jpg" />
-        <meta
-            name="description"
-            content="UPSC Physics Optional Question Bank"
-        />
-        <meta name="keywords" content="UPSC, Physics, optional, questions" />
+        <meta name="description" content={description} />
+        <meta name="keywords" content={refinedKeywords} />
         <link rel="canonical" href={Astro.url} />
-        <title>UPSC Physics Optional Questions</title>
+        <title>{title}</title>
         <link
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.css"
@@ -32,6 +43,7 @@ const { page } = Astro.props;
             src="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/contrib/auto-render.min.js"
             integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05"
             crossorigin="anonymous"></script>
+        <link rel="sitemap" href="/sitemap-index.xml" />
     </head>
     <body>
         <menu-nav-bar>
@@ -130,7 +142,8 @@ const { page } = Astro.props;
                                     <a
                                         href="/two-questions-programme"
                                         class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
-                                        data-page="two-questions-programme">2GP</a
+                                        data-page="two-questions-programme"
+                                        >2GP</a
                                     >
                                 </div>
                             </div>
@@ -323,21 +336,21 @@ const { page } = Astro.props;
 </script>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics.js";
-const firebaseConfig = {
-    apiKey: "AIzaSyC1caVhmNpYyshsvdA2kC3s_Om9JP-GiAg",
-    authDomain: "physics-questions-upsc.firebaseapp.com",
-    projectId: "physics-questions-upsc",
-    storageBucket: "physics-questions-upsc.appspot.com",
-    messagingSenderId: "154279966945",
-    appId: "1:154279966945:web:6a263305ac3c5c2c85dfa0",
-    measurementId: "G-51MRNHRE1X"
-};
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics.js";
+    const firebaseConfig = {
+        apiKey: "AIzaSyC1caVhmNpYyshsvdA2kC3s_Om9JP-GiAg",
+        authDomain: "physics-questions-upsc.firebaseapp.com",
+        projectId: "physics-questions-upsc",
+        storageBucket: "physics-questions-upsc.appspot.com",
+        messagingSenderId: "154279966945",
+        appId: "1:154279966945:web:6a263305ac3c5c2c85dfa0",
+        measurementId: "G-51MRNHRE1X",
+    };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
 </script>
 
 <style is:global>
