@@ -20,9 +20,25 @@ export const TwoQuestions = () => {
     let timeInMilliseconds = today.getTime() - givenDate.getTime();
 
     // Convert milliseconds to days and round down
-    let originalDaysDifference = Math.floor(timeInMilliseconds / (1000 * 60 * 60 * 24));
-    let daysDifference = Math.floor(originalDaysDifference - (originalDaysDifference / 7));
-    const [day, setDay] = useState(daysDifference);
+    const [day, setDay] = useState(10);
+    const [questionsCount, setQuestionsCount] = useState(0);
+
+    const FetchMetaDay = async () => {
+        const db = getFirestore(app);
+
+        // Assuming `db` is your Firestore database instance
+        const metaDataRef = collection(db, 'metadata', '2gp', 'day');
+
+        // Execute the query and log the results
+        try {
+            const querySnapshot = await getDocs(metaDataRef);
+            let data = querySnapshot.docs.map((doc) => doc.data());
+            setQuestionsCount(data[0].day);
+            setDay(data[0].day);
+        } catch (error) {
+            console.error("Error fetching user data: ", error);
+        }
+    }
 
     const FetchQuestions = async (day) => {
         const db = getFirestore(app);
@@ -54,9 +70,9 @@ export const TwoQuestions = () => {
     }
 
     const NextButton = () => {
-        let nextDay = (day + 1) < daysDifference ? day + 1 : daysDifference;
+        let nextDay = (day + 1) < questionsCount ? day + 1 : questionsCount;
         return <>
-            {day != daysDifference && <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => setDay(nextDay)}>
+            {day != questionsCount && <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => setDay(nextDay)}>
                 Day {nextDay}
             </button>}
         </>
@@ -85,6 +101,9 @@ export const TwoQuestions = () => {
         RenderLaTeX();
     }, [questions]);
 
+    useEffect(() => {
+        FetchMetaDay();
+    }, []);
     return <>
         <div className="flex justify-between">
             <PreviousButton />
